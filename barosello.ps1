@@ -9,6 +9,9 @@ Function Barosello
 		$PrintRes = $False
     )
     Set-StrictMode -Version 2.0
+    
+    #Import-module InvokeTwitterAPIs
+    
     $ForegroundColor = @{}
     $ForegroundColor["Baro"] = "Green"
     $ForegroundColor["Sello"] = "Red"
@@ -17,9 +20,15 @@ Function Barosello
     
     $PrintOnConsole = @{}
     $PrintOnConsole["Baro"] = $False
-    $PrintOnConsole["Sello"] = $False
+    $PrintOnConsole["Sello"] = $True
     $PrintOnConsole["Nardo"] = $False
     $PrintOnConsole["Barosello"] = $True
+    
+    $PrintOnTwitter = @{}
+    $PrintOnTwitter["Baro"] = $True
+    $PrintOnTwitter["Sello"] = $True
+    $PrintOnTwitter["Nardo"] = $False
+    $PrintOnTwitter["Barosello"] = $True
 
     function Local:Get-Res
     {
@@ -50,13 +59,29 @@ Function Barosello
             Else { Return $i }
         }
     }
+    
     For ($i=0; $i -le $Range; $i++)
     {
-        $Res = Get-Res 3 5 7
-        if ( $PrintRes )
+        $CallStub = Get-Res 3 5 7
+        If ( $PrintRes )
         {
-            if (!($Res -is [int]) -and $PrintOnConsole[$Res])
-            {Write-Host $Res -foreground $ForegroundColor[$Res]}
+            If (!($CallStub -is [int]))
+            {
+                If ($PrintOnConsole[$CallStub])
+                {
+                    Write-Host $CallStub -foreground $ForegroundColor[$CallStub]
+                }
+                If ($PrintOnTwitter[$CallStub])
+                {
+                    #$OAuth = @{'ApiKey' = 'yourapikey'; 'ApiSecret' = 'yourapisecretkey';'AccessToken' = 'yourapiaccesstoken';'AccessTokenSecret' = 'yourapitokensecret'}
+                    #Invoke-TwitterRestMethod -ResourceURL 'https://api.twitter.com/1.1/direct_messages/new.json' -RestVerb 'POST' -Parameters @{'text' = $Res; 'screen_name' = 'TestBE' } -OAuthSettings $OAuth 
+                    
+                    $req = [System.Net.WebRequest]::Create("https://api.twitter.com/1.1/direct_messages/new.json")
+                    $req.Method ="POST"
+                    $req.ContentLength = 0
+                    Write-Output "Risultato postato su Twitter"
+                }
+            }
         }
         else
         {
