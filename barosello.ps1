@@ -14,6 +14,12 @@ Function Barosello
     $ForegroundColor["Sello"] = "Red"
     $ForegroundColor["Nardo"] = "Yellow"
     $ForegroundColor["Barosello"] = "Blue"
+    
+    $PrintOnConsole = @{}
+    $PrintOnConsole["Baro"] = $False
+    $PrintOnConsole["Sello"] = $False
+    $PrintOnConsole["Nardo"] = $False
+    $PrintOnConsole["Barosello"] = $True
 
     function Local:Get-Res
     {
@@ -49,8 +55,8 @@ Function Barosello
         $Res = Get-Res 3 5 7
         if ( $PrintRes )
         {
-            if ($Res -is [int]) {Write-Host $Res}
-            else {Write-Host $Res -foreground $ForegroundColor[$Res]}
+            if (!($Res -is [int]) -and $PrintOnConsole[$Res])
+            {Write-Host $Res -foreground $ForegroundColor[$Res]}
         }
         else
         {
