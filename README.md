@@ -3,9 +3,9 @@ Esercizio Barosello terminato in data 20170603
 NB:<br />
 Per gli step 1 e 2, basta lanciare lo script.<br />
 Per gli altri step, prima imortare lo script:<br />
-. .\<path>\barosello.ps1<br />
+<b>. .\<path>\barosello.ps1</b><br />
 e poi eseguirlo con i parametri. E' possibile specificare il range (da 0 a x) e se stampare o meno il risultato:<br />
-Barosello -Range 100 -PrintRes<br />
+<b>Barosello -Range 100 -PrintRes</b><br />
 <br />
 Negli step 4 e 5, i colori e la stampa su console/twitter e' hardcoded.<br />
 <br />
